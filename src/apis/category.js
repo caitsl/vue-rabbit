@@ -6,4 +6,13 @@ export function getCategoryAPI(){
      })
 }
 
+export function findTopCategoryAPI(id){
+    return http({
+        url:'/category',
+        params:{
+            id:id
+        }
+    })
+}
+
 
