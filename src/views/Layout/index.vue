@@ -18,7 +18,8 @@ onMounted(() => {
     <LayoutFix/>
     <LayoutNav />
     <LayoutHeader />
-    <RouterView />
+    <!-- <RouterView :key="$route.fullPath"/> -->
+    <RouterView/>
     <LayoutFooter />
 </template>
 

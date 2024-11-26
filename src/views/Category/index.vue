@@ -1,28 +1,31 @@
 <script setup>
 import { findTopCategoryAPI } from "@/apis/category";
-import { getBannerAPI } from '@/apis/home';
-import { ref,onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { getBannerAPI } from "@/apis/home";
+import { ref, onMounted } from "vue";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import GoodsItem from "../Home/components/GoodsItem.vue";
 const route = useRoute();
 const category = ref({});
-const getCategory = async (id) => {
+const getCategory = async (id=route.params.id) => {
   const res = await findTopCategoryAPI(id);
   category.value = res.result;
 };
 
-getCategory(route.params.id);
+onMounted(() => getBanner());
 
-const bannerList=ref([])
-const getBanner=async ()=>{
-     const res=await getBannerAPI({
-      distributionSite:'2'
-     })
-     bannerList.value=res.result
-}
+const bannerList = ref([]);
+const getBanner = async () => {
+  const res = await getBannerAPI({
+    distributionSite: "2",
+  });
+  bannerList.value = res.result;
+};
 
-onMounted(()=>{
-  getBanner()
+onBeforeRouteUpdate((to)=>{
+    getCategory(to.params.id)
 })
+
+onMounted(() =>getBanner());
 </script>
 
 <template>
@@ -35,17 +38,37 @@ onMounted(()=>{
           <el-breadcrumb-item>{{ category.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+      <div class="home-banner">
+        <el-carousel height="500px">
+          <el-carousel-item v-for="item in bannerList" :key="item.id">
+            <img :src="item.imgUrl" alt="" />
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <div class="sub-list">
+        <h3>全部分类</h3>
+        <ul>
+          <li v-for="i in category.children" :key="i.id">
+            <RouterLink to="/">
+              <img :src="i.picture" />
+              <p>{{ i.name }}</p>
+            </RouterLink>
+          </li>
+        </ul>
+      </div>
+      <div class="ref-goods" v-for="item in category.children" :key="item.id">
+        <div class="head">
+          <h3>- {{ item.name }}-</h3>
+        </div>
+        <div class="body">
+          <GoodsItem
+            v-for="goods in item.goods"
+            :goods="goods"
+            :key="goods.id"
+          />
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="home-banner">
-    <el-carousel height="500px">
-      <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <img
-          :src="item.imgUrl"
-          alt=""
-        />
-      </el-carousel-item>
-    </el-carousel>
   </div>
 </template>
 
@@ -94,6 +117,16 @@ onMounted(()=>{
     }
   }
 
+  .home-banner {
+    width: 1240px;
+    height: 500px;
+    margin: 0 auto;
+    img {
+      width: 100%;
+      height: 500px;
+    }
+  }
+
   .ref-goods {
     background-color: #fff;
     margin-top: 20px;
@@ -124,15 +157,6 @@ onMounted(()=>{
 
   .bread-container {
     padding: 25px 0;
-  }
-}
-.home-banner {
-  width: 1240px;
-  height: 500px;
-  margin: 0 auto;
-  img {
-    width: 100%;
-    height: 500px;
   }
 }
 </style>
