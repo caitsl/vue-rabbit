@@ -1,6 +1,5 @@
 <script setup>
-// import {  } from 'vue';
-import { getBannerAPI } from '@/apis/banner';
+import { getBannerAPI } from '@/apis/home';
 import { onMounted,ref } from 'vue';
 const bannerList=ref([])
 const getBanner=async ()=>{
