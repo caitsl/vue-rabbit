@@ -3,11 +3,13 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getDetailAPI } from '@/apis/goods';
 import DetailHot from './components/DetailHot.vue';
+const loading=ref(true)
 const route=useRoute()
 const goods=ref({})
 const getGoods=async()=>{
      const res=await getDetailAPI(route.params.id)
      goods.value=res.result
+     loading.value=false
 }
 
 onMounted(()=>getGoods())
@@ -15,8 +17,8 @@ onMounted(()=>getGoods())
 </script>
 
 <template>
-  <div class="xtx-goods-page" >
-    <div class="container" v-if="goods.details">
+  <div class="xtx-goods-page"  v-loading.fullscreen.lock="loading" >
+    <div class="container" v-if="goods.details" >
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -116,9 +118,9 @@ onMounted(()=>getGoods())
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
                   <!-- 24小时 -->
-                  <DetailHot/>
+                  <DetailHot  :hot-type="1"/>
                   <!-- 周 -->
-                  <DetailHot/>
+                  <DetailHot :hot-type="2"/>
             </div>
           </div>
         </div>
