@@ -2,11 +2,11 @@
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getDetailAPI } from '@/apis/goods';
+import DetailHot from './components/DetailHot.vue';
 const route=useRoute()
 const goods=ref({})
 const getGoods=async()=>{
      const res=await getDetailAPI(route.params.id)
-     console.log(res);
      goods.value=res.result
 }
 
@@ -109,13 +109,16 @@ onMounted(()=>getGoods())
                     </li>
                   </ul>
                   <!-- 图片 -->
-
+                  <img v-for="item in goods.details.pictures" :src="item" :key="item" alt="">
                 </div>
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-
+                  <!-- 24小时 -->
+                  <DetailHot/>
+                  <!-- 周 -->
+                  <DetailHot/>
             </div>
           </div>
         </div>
