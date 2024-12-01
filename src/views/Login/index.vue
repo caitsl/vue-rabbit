@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { loginAPI } from "@/apis/user";
+import { useUserStore } from "@/stores/user";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 //表单对象
@@ -10,6 +10,8 @@ const form = ref({
   password: "",
   agree: true,
 });
+
+const userStore=useUserStore()
 
 //规则对象
 const rules = ref({
@@ -35,7 +37,7 @@ const login = () => {
     if (val) {
       console.log(val);
       const { account, password } = form.value;
-      await loginAPI({ account, password });
+      userStore.getUserInfo({ account, password })
       ElMessage({
         type: "success",
         message: "登录成功",
