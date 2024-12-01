@@ -10,19 +10,20 @@ export const useCartStore=defineStore('cart',()=>{
   //添加购物车
   const addCart=(goods)=>{
     console.log("添加",goods);
-
       //添加购物车逻辑
       const item=cartList.value.find(item=>goods.skuId===item.skuId)
-      if(item){
-          item.count+=goods.count
-      }else{
-        cartList.value.push(goods)
-      }
+      return item?item.count+=goods.count:  cartList.value.push(goods)
   }
 
   //删除购物车
   const delCart=(skuId)=>{
       cartList.value=cartList.value.filter(item=>item.skuId!==skuId)
+  }
+
+  //单选操作
+  const singleCheck=(skuId,selected)=>{
+       const item = cartList.value.find(item=>skuId===item.skuId)
+       item.selected=selected
   }
 
   //总价
@@ -35,7 +36,8 @@ export const useCartStore=defineStore('cart',()=>{
        totalPrice,
        totalCount,
        addCart,
-       delCart
+       delCart,
+       singleCheck
   }
 },{
     persist:true
