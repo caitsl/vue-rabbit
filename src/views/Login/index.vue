@@ -18,11 +18,19 @@ const rules = ref({
   agree:[
      {
         validator:(rule,val,callback)=>{
-            val?callback():new Error('请勾选协议')
+           return val?callback():new Error('请勾选协议')
         }
      }
   ]
 });
+
+//获取form实例统一校验
+const refForm=ref(null)
+
+const login=()=>{
+     refForm.value.validate(val=>console.log(val));
+
+}
 </script>
 
 <template>
@@ -52,6 +60,7 @@ const rules = ref({
               :model="form"
               :rules="rules"
               status-icon
+              ref="refForm"
             >
               <el-form-item prop="account" label="账户">
                 <el-input v-model="form.account"/>
@@ -64,7 +73,7 @@ const rules = ref({
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="login">点击登录</el-button>
             </el-form>
           </div>
         </div>
