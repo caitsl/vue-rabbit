@@ -18,6 +18,9 @@ export const useCartStore = defineStore('cart', () => {
     return item ? item.count += goods.count : cartList.value.push(goods)
   }
 
+  const selectedCount=computed(()=>cartList.value.filter(item=>item.selected).reduce((sum, item) => sum + item.count, 0))
+  const selectedPrice=computed(()=>cartList.value.filter(item=>item.selected).reduce((sum, item) => sum + item.count* item.price, 0))
+
   //删除购物车
   const delCart = (skuId) => {
     cartList.value = cartList.value.filter(item => item.skuId !== skuId)
@@ -45,6 +48,8 @@ export const useCartStore = defineStore('cart', () => {
     totalPrice,
     totalCount,
     isAll,
+    selectedCount,
+    selectedPrice,
     addCart,
     delCart,
     singleCheck,
