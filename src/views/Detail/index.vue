@@ -3,13 +3,11 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getDetailAPI } from '@/apis/goods';
 import DetailHot from './components/DetailHot.vue';
-const loading=ref(true)
 const route=useRoute()
 const goods=ref({})
 const getGoods=async()=>{
      const res=await getDetailAPI(route.params.id)
      goods.value=res.result
-     loading.value=false
 }
 
 onMounted(()=>getGoods())
@@ -22,7 +20,7 @@ const skuChange=(sku)=>{
 </script>
 
 <template>
-  <div class="xtx-goods-page"  v-loading.fullscreen.lock="loading" >
+  <div class="xtx-goods-page" >
     <div class="container" v-if="goods.details" >
       <div class="bread-container">
         <el-breadcrumb separator=">">
