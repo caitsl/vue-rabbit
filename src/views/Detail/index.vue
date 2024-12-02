@@ -21,12 +21,6 @@ const skuChange=(sku)=>{
 
 const count=ref(1)
 
-const countChange=()=>{
-  //
-  console.log(count.value);
-
-}
-
 const cartStore=useCartStore()
 
 const addCart=()=>{
@@ -41,7 +35,7 @@ const addCart=()=>{
               attrsText:skuObj.value.specsText,
               selected:true
          })
-         ElMessage({type:'success',message:'添加成功'})
+         ElMessage({type:'success',message:'添加购物车成功'})
      }else{
          ElMessage({type:'warning',message:'请选择规格'})
      }
