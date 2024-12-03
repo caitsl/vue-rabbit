@@ -20,3 +20,13 @@ export const getHotGoodsAPI=({id,type,limit=3})=>{
         }
     })
 }
+
+export const getLikeListAPI=({limit})=>{
+  return http({
+      url:'/goods/relevant',
+      params:{
+        limit
+      }
+  })
+}
+

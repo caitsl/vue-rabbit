@@ -9,6 +9,10 @@ const singleCheck=(i,selected)=>{
 const allCheck=(selected)=>{
   cartStore.allCheck(selected)
 }
+
+const delCart=(i)=>[
+cartStore.delCart(i.skuId)
+]
 </script>
 
 <template>
@@ -67,7 +71,7 @@ const allCheck=(selected)=>{
               <td colspan="6">
                 <div class="cart-none">
                   <el-empty description="购物车列表为空">
-                    <el-button type="primary">随便逛逛</el-button>
+                    <el-button type="primary" @click="$router.push('/')">随便逛逛</el-button>
                   </el-empty>
                 </div>
               </td>

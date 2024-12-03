@@ -10,7 +10,7 @@ const getCheckInfo = async () => {
   checkInfo.value = res.result;
 };
 
-const router = useRouter();
+const router=useRouter()
 onMounted(() => getCheckInfo());
 
 const showDialog = ref(false);
@@ -27,27 +27,27 @@ const confirm = () => {
 };
 
 const commitOrder = async () => {
-  const res = await commitOrderAPI({
+ const res= await commitOrderAPI({
     deliveryTimeType: 1,
     payType: 1,
     payChannel: 1,
     buyerMessage: "",
-    goods: checkInfo.value.goods.map((item) => {
-      return {
-        skuId: item.skuId,
-        count: item.count,
-      };
+    goods: checkInfo.value.goods.map(item=>{
+        return{
+            skuId:item.skuId,
+            count:item.count
+        }
     }),
     addressId: curAddress.value.id,
   });
 
-  const orderId = res.result.id;
+  const orderId=res.result.id
   router.push({
-    path: "/pay",
-    query: {
-      orderId,
-    },
-  });
+       path:'/pay',
+       query:{
+          orderId
+       }
+  })
 };
 </script>
 
